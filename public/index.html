@@ -26,7 +26,12 @@
           </div>
         </div>
         <div id = "game-settings-container" class = "game-settings-container">
-          <div id = "start-game-button">Start game</div>
+          <div class = "game-settings">
+            <input type="text" id="username" name="user" placeholder="USERNAME">
+            <input type="text" id="room" name="room" placeholder="ROOM NAME">
+            <input type="Button" id="submit-info" value="Submit Info">
+            <div id = "start-game-button" style = "display: none;">Start game</div>
+          </div>
         </div>
         <div id = "join-blue-team-container" class = "join-team-container">
           <div class = "blue-team">
@@ -50,7 +55,7 @@
     </section>
     <!-- Game Screen -->
     <section id = "game-screen" style = "display: none">
-      <div class = "game">
+      <div id = "game" class = "game">
         <div id = "left-container" class = "team-container">
           <div class = "red-team">
             <div class = "team-top-container">

@@ -18,6 +18,11 @@ var lastClue = {
   clue: "blank",
   number: 0
 }
+const background = document.getElementById('game');
+
+document.getElementById('submit-info').addEventListener('click', submitInfo);
+
+
 
 document.getElementById('start-game-button').addEventListener('click', startGame);
 document.getElementById('submit-clue').addEventListener('click', submitClue);
@@ -30,7 +35,15 @@ document.getElementById('join-blue-spymaster').addEventListener('click', setRole
 var username = 'user-' + makeId(5).toLowerCase();
 var room = 'room-' + makeId(5).toLowerCase();
 
-setupConnections();
+
+function submitInfo(){
+  console.log("submit info");
+  document.getElementById('username').style.display = "none";
+  document.getElementById('room').style.display = "none";
+  document.getElementById('submit-info').style.display = "none";
+  document.getElementById('start-game-button').style.display = "block";
+  setupConnections();
+}
 
 
 function setupConnections() {
@@ -106,7 +119,8 @@ function makeId(length) {
 }
 
 function setNickname(){
-  username = prompt('Choose a username', username);
+  username = document.getElementById('username').value;
+  console.log("USERNAME", username);
   if (!username){
     username = "test";
   }
@@ -114,7 +128,8 @@ function setNickname(){
 }
 
 function setRoom(){
-  room = prompt('Choose a room', room);
+  room = document.getElementById('room').value;
+  console.log("ROOM", room);
   if (!room){
     room = "test";
   }
@@ -302,6 +317,7 @@ function handleTileClicked(data){
       }
       if (turn == "blue"){
         turn = "red";
+        background.style.backgroundColor = "#C2492F"
       }
     } else if (cards.indexOf(tileId[2]) == (cards.length -1)){
       console.log("Card was BLACK");//Game ends
@@ -322,6 +338,7 @@ function handleTileClicked(data){
       }
       if (turn == "red"){
         turn = "blue";
+        background.style.backgroundColor = "#354065"
       }
     }
   } else {
@@ -330,8 +347,11 @@ function handleTileClicked(data){
     //Change turns
     if(turn == "red"){
       turn = "blue";
+      console.log("background: ", background);
+      background.style.backgroundColor = "#354065"
     } else {
       turn = "red";
+      background.style.backgroundColor = "#C2492F"
     }
   }
 

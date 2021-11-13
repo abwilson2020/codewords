@@ -105,9 +105,11 @@ body {
 
 #start-game-button{
     background-color: white;
+    border: 2px solid black;
+    cursor: pointer;
 }
 .menu{
-    background-color: turquoise;
+    background-image: url("../assets/background.png"), linear-gradient(90deg, rgba(194,73,47,1) 0%, rgba(53,64,101,1) 100%);;
     display: grid;
     width: 100vw;
     height: 100vh;
@@ -124,13 +126,10 @@ body {
     cursor: pointer;
 }
 
-
-
-
-
-
 .game{
-    background-color: turquoise;
+    background-image: url("../assets/background.png");
+    background-repeat: ;
+    background-color: #c2492F;
     display: grid;
     width: 100vw;
     height: 100vh;
@@ -139,11 +138,18 @@ body {
 }
 
 #left-container{
-    background-color: crimson;
+    /* background-color: crimson; */
 }
 
 .red-team{
-    background-color: red;
+    background-color: #D95734;
+    margin: 25px;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.game-settings{
+    background-color: white;
     margin: 25px;
     border-radius: 15px;
     padding: 25px;
@@ -173,7 +179,6 @@ body {
     flex-direction: column;
 }
 .game-board{
-    background-color: beige;
     display: grid;
     grid-gap: 5px;
     width: 100%;
@@ -182,8 +187,9 @@ body {
 }
 
 .game-tile{
-    background-color: burlywood;
+    background-color: #FBE0B4;
     border-radius: 2px;
+    border: 2px solid black;
     aspect-ratio: 16/9;
     text-align: center;
     display: flex;
@@ -192,25 +198,46 @@ body {
     cursor: pointer;
 }
 .tile-blue{
-    background-color: aquamarine;
+    background-color: #354065;
+    color: white;
 }
 .tile-red{
-    background-color: firebrick;
+    background-color: #c2492F;
 }
 .tile-black{
     background-color: black;
     color: white;
 }
 .tile-none{
-    background-color: darkgoldenrod;
+    background-color: #F2AF81;
+}
+.game-status{
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    margin: auto;
+    margin-bottom: 100px
 }
 .clue{
-    background-color: cadetblue;
+    /* background-color: cadetblue; */
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 100px auto auto;
+}
+#clue-word{
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+#clue-number{
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    margin-left: 5px;
 }
 .clue-display-container{
     display: flex;
@@ -219,20 +246,24 @@ body {
 .clue-submit-container{
     display: flex;
     flex-direction: row;
+    margin-top: 15px;
+}
+#number{
+    padding: 5px;
 }
 
 
 #right-container{
-    background-color: aqua;
+    /* background-color: 354065; */
 }
 .blue-team{
-    background-color: blue;
+    background-color: #465484;
     margin: 25px;
     border-radius: 15px;
     padding: 25px;
 }
 .game-log{
-    background-color: beige;
+    background-color: rgba(255, 255, 255, 0.7);;
     margin: 25px;
     border-radius: 15px;
     padding: 25px;
