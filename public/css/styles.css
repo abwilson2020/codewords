@@ -1,0 +1,239 @@
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+body {
+    line-height:1;
+}
+
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section {
+    display:block;
+}
+
+nav ul {
+    list-style:none;
+}
+
+blockquote, q {
+    quotes:none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content:'';
+    content:none;
+}
+
+a {
+    margin:0;
+    padding:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+    text-decoration: none;
+}
+
+/* change colours to suit your needs */
+ins {
+    background-color:#ff9;
+    color:#000;
+    text-decoration:none;
+}
+
+/* change colours to suit your needs */
+mark {
+    background-color:#ff9;
+    color:#000;
+    font-style:italic;
+    font-weight:bold;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+    border-bottom:1px dotted;
+    cursor:help;
+}
+
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+/* change border colour to suit your needs */
+hr {
+    display:block;
+    height:1px;
+    border:0;  
+    border-top:1px solid #cccccc;
+    margin:1em 0;
+    padding:0;
+}
+
+input, select {
+    vertical-align:middle;
+}
+
+:root {
+    --background: #090a0f;
+    --background2: #1B2132;
+    --accent1: #2cef94;
+}
+body {
+    background-color: var(--background);
+}
+
+#start-game-button{
+    background-color: white;
+}
+.menu{
+    background-color: turquoise;
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.button{
+    background-color: yellow;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 5px auto;
+    cursor: pointer;
+}
+
+
+
+
+
+
+.game{
+    background-color: turquoise;
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
+#left-container{
+    background-color: crimson;
+}
+
+.red-team{
+    background-color: red;
+    margin: 25px;
+    border-radius: 15px;
+    padding: 25px;
+}
+.operatives{
+    margin: 5px auto;
+}
+.team-top-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+}
+.team-image{
+    width: 50%;
+    object-fit: contain;
+    border-radius: 15px;
+}
+.team-score{
+    width: 50%;
+    font-size: 36px;
+}
+
+.game-container{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.game-board{
+    background-color: beige;
+    display: grid;
+    grid-gap: 5px;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.game-tile{
+    background-color: burlywood;
+    border-radius: 2px;
+    aspect-ratio: 16/9;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.tile-blue{
+    background-color: aquamarine;
+}
+.tile-red{
+    background-color: firebrick;
+}
+.tile-black{
+    background-color: black;
+    color: white;
+}
+.tile-none{
+    background-color: darkgoldenrod;
+}
+.clue{
+    background-color: cadetblue;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.clue-display-container{
+    display: flex;
+    flex-direction: row;
+}
+.clue-submit-container{
+    display: flex;
+    flex-direction: row;
+}
+
+
+#right-container{
+    background-color: aqua;
+}
+.blue-team{
+    background-color: blue;
+    margin: 25px;
+    border-radius: 15px;
+    padding: 25px;
+}
+.game-log{
+    background-color: beige;
+    margin: 25px;
+    border-radius: 15px;
+    padding: 25px;
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="en"><head>
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+    <!-- Main menu -->
+    <section>
+      <div id = "menu-screen" class = "menu">
+        <div id = "join-red-team-container" class = "join-team-container">
+          <div class = "red-team">
+            <div class = "team-top-container">
+              <img class = "team-image" src="assets/neonbrand-jxmVsYjglnQ-unsplash.jpg">
+              <p class = "team-score">-</p>
+            </div>
+            <div class = "operative-container">
+              <p class = "operatives">Operative(s)</p>
+              <p id = "red-operative-menu" class = "operatives"></p>
+              <div id = "join-red-operative" class = "button">Join as Operative</div>
+            </div>
+            <div class = "operative-container">
+              <p class = "operatives">Spymaster(s)</p>
+              <p id = "red-spymaster-menu" class = "operatives"></p>
+              <div id = "join-red-spymaster" class = "button">Join as Spymaster</div>
+            </div>
+          </div>
+        </div>
+        <div id = "game-settings-container" class = "game-settings-container">
+          <div id = "start-game-button">Start game</div>
+        </div>
+        <div id = "join-blue-team-container" class = "join-team-container">
+          <div class = "blue-team">
+            <div class = "team-top-container">
+              <img class = "team-image" src="assets/neonbrand-jxmVsYjglnQ-unsplash.jpg">
+              <p class = "team-score">-</p>
+            </div>
+            <div class = "operative-container">
+              <p class = "operatives">Operative(s)</p>
+              <p id = "blue-operative-menu" class = "operatives"></p>
+              <div id = "join-blue-operative" class = "button">Join as Operative</div>
+            </div>
+            <div class = "operative-container">
+              <p class = "operatives">Spymaster(s)</p>
+              <p id = "blue-spymaster-menu" class = "operatives"></p>
+              <div id = "join-blue-spymaster" class = "button">Join as Spymaster</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Game Screen -->
+    <section id = "game-screen" style = "display: none">
+      <div class = "game">
+        <div id = "left-container" class = "team-container">
+          <div class = "red-team">
+            <div class = "team-top-container">
+              <img class = "team-image" src="assets/neonbrand-jxmVsYjglnQ-unsplash.jpg">
+              <p id = "red-team-score" class = "team-score">-</p>
+            </div>
+            <div class = "operative-container">
+              <p class = "operatives">Operative(s)</p>
+              <p id = "red-operative" class = "operatives"></p>
+            </div>
+            <div class = "operative-container">
+              <p class = "operatives">Spymaster(s)</p>
+              <p id = "red-spymaster" class = "operatives"></p>
+            </div>
+          </div>
+        </div>
+        <div class = "game-container">
+          <div class = "game-status">
+            <p>The spymaster is giving a clue...</p>
+          </div>
+          <div id = "game-board" class = "game-board">
+          </div>
+          <br>
+          <div class = "clue">
+            <div class = "clue-display-container">
+              <p id = "clue-word">CLUE WORD</p>
+              <p id = "clue-number">#</p>
+            </div>
+            <div class = "clue-submit-container">
+              <input type="text" id="clue" name="clue" placeholder="CLUE">
+              <input type="Number" id="number" name="number" min="1" value = "1">
+              <input type="Button" id="submit-clue" value="Submit Clue">
+            </div>
+          </div>
+        </div>
+        <div id = "right-container" class = "team-container">
+          <div class = "blue-team">
+            <div class = "team-top-container">
+              <img class = "team-image" src="assets/neonbrand-jxmVsYjglnQ-unsplash.jpg">
+              <p id = "blue-team-score" class = "team-score">-</p>
+            </div>
+            <div class = "operative-container">
+              <p class = "operatives">Operative(s)</p>
+              <p id = "blue-operative" class = "operatives"></p>
+            </div>
+            <div class = "operative-container">
+              <p class = "operatives">Spymaster(s)</p>
+              <p id = "blue-spymaster" class = "operatives"></p>
+            </div>
+          </div>
+          <div id = "game-log" class = "game-log">
+            GAME LOG
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <script src="game.js"></script>
+  </body>
+</html>
