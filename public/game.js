@@ -18,7 +18,12 @@ var lastClue = {
   clue: "blank",
   number: 0
 }
+
+let logMessage;
+let gameLog = document.getElementById('game-log');
+
 const background = document.getElementById('game');
+const gameMessage = document.getElementById('game-status-message');
 
 document.getElementById('submit-info').addEventListener('click', submitInfo);
 
@@ -38,10 +43,8 @@ var room = 'room-' + makeId(5).toLowerCase();
 
 function submitInfo(){
   console.log("submit info");
-  document.getElementById('username').style.display = "none";
-  document.getElementById('room').style.display = "none";
-  document.getElementById('submit-info').style.display = "none";
-  document.getElementById('start-game-button').style.display = "block";
+  document.getElementById('login-screen').style.display = "none";
+  document.getElementById('menu-screen').style.display = "block";
   setupConnections();
 }
 
@@ -61,6 +64,8 @@ function setupConnections() {
 function makeHost(){
   console.log("make host");
   host = true;
+  document.getElementById('start-game-button').style.display = "block";
+  document.getElementById('member-message').style.display = "none";
 }
 function updateConnection(data){
   console.log("NEW CONNECTION TO ROOM: ", data);
@@ -227,6 +232,8 @@ let gameBoard = document.getElementById('game-board');
 async function gameSetup(data) {
   document.getElementById('menu-screen').style.display = "none"; //Hide the menu screen
   document.getElementById('game-screen').style.display = "block"; //Reveal the game screen
+  gameMessage.innerHTML = "The Red Spymaster is giving a clue...";
+
   if (role == "operative"){
     document.getElementById('clue').style.display = "none";
     document.getElementById('number').style.display = "none";
@@ -279,6 +286,8 @@ function tileClicked(e){
   console.log("E:", e.target.id);
   if (team != turn){
     alert("it is not your teams turn");
+  } else if (lastClue.team != team){
+    alert("Wait for your spymaster to send a clue");
   } else {
     var data = {
       user: username,
@@ -303,6 +312,13 @@ function handleTileClicked(data){
   tileId = data.tile.split('-')
   console.log("tileID: ", tileId);
   console.log("CARDS: ", cards);
+
+  logMessage = document.createElement('p');
+  logMessage.classList.add('game-log-message');
+  logMessage.classList.add('game-log-message-' + data.team);
+  logMessage.innerHTML = data.user + " guesses " + tile.innerHTML;
+  gameLog.append(logMessage);
+
   if (cards.indexOf(tileId[2]) != -1){
     console.log("CARD IN LIST: ", tileId[2]); //
     console.log(cards.indexOf(tileId[2]));
@@ -317,7 +333,8 @@ function handleTileClicked(data){
       }
       if (turn == "blue"){
         turn = "red";
-        background.style.backgroundColor = "#C2492F"
+        background.style.backgroundColor = "#C2492F";
+        gameMessage.innerHTML = "The Red Spymaster is giving a clue...";
       }
     } else if (cards.indexOf(tileId[2]) == (cards.length -1)){
       console.log("Card was BLACK");//Game ends
@@ -339,6 +356,7 @@ function handleTileClicked(data){
       if (turn == "red"){
         turn = "blue";
         background.style.backgroundColor = "#354065"
+        gameMessage.innerHTML = "The Blue Spymaster is giving a clue...";
       }
     }
   } else {
@@ -347,11 +365,12 @@ function handleTileClicked(data){
     //Change turns
     if(turn == "red"){
       turn = "blue";
-      console.log("background: ", background);
       background.style.backgroundColor = "#354065"
+      gameMessage.innerHTML = "The Blue Spymaster is giving a clue...";
     } else {
       turn = "red";
       background.style.backgroundColor = "#C2492F"
+      gameMessage.innerHTML = "The Red Spymaster is giving a clue...";
     }
   }
 
@@ -364,7 +383,9 @@ function updateCardsRemaining(){
 }
 function gameOver(winner){
   console.log("TEAM " + winner + " WINS");
-  alert(winner + " team wins");
+  // alert(winner + " team wins");
+  document.getElementById('game-over').innerHTML = winner + " team wins!";
+  document.getElementById('game-over').style.display = "flex";
 }
 
 function submitClue(){
@@ -376,19 +397,27 @@ function submitClue(){
     alert("You need to set a clue");
   } else {
     lastClue = {
+      user: username,
       team: team,
       clue: document.getElementById('clue').value,
       number: document.getElementById('number').value
     }
     socket.emit('new-clue', lastClue);
   }
-  console.log("SUBMIT CLUE: ", document.getElementById('number').value, document.getElementById('clue').value);
+  // console.log("SUBMIT CLUE: ", document.getElementById('number').value, document.getElementById('clue').value);
   newClue(lastClue);
 }
+
 
 function newClue(data){
   console.log("CLUE RECEIVED: ", data);
   lastClue = data;
   document.getElementById('clue-word').innerHTML = data.clue;
   document.getElementById('clue-number').innerHTML = data.number;
+  gameMessage.innerHTML = "The " + turn + " team is guessing...";
+  logMessage = document.createElement('p');
+  logMessage.classList.add('game-log-message');
+  logMessage.classList.add('game-log-message-' + data.team);
+  logMessage.innerHTML = data.user + " gives clue " + data.clue + " " + data.number;
+  gameLog.append(logMessage);
 }

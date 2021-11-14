@@ -95,9 +95,17 @@ input, select {
 }
 
 :root {
-    --background: #090a0f;
+    --redDark: #7f0000;
+    --redLight: #b50a0a;
+    --redExtraLight: #fde6d4;
+    --blueDark: #3383a2;
+    --blueLight: #72c2e1;
+    --blueExtraLight: #c2e8eb;
     --background2: #1B2132;
     --accent1: #2cef94;
+}
+*{
+    font-family: 'Open Sans', sans-serif;
 }
 body {
     background-color: var(--background);
@@ -108,6 +116,47 @@ body {
     border: 2px solid black;
     cursor: pointer;
 }
+#login-screen{
+    background-image: url("../assets/background.png"), linear-gradient(90deg, rgba(194,73,47,1) 0%, rgba(53,64,101,1) 100%);;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.login-container{
+    display: flex;
+    flex-direction: column;
+    max-width: 350px;
+    width: 80%;
+    background: white;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 7px 30px -10px rgba(150,170,180,0.8);
+}
+.logo-image{
+    object-fit: contain;
+    margin-bottom: 15px;
+    border-radius: 25px;
+}
+.login-container input{
+    padding: 5px;
+    margin: 5px auto;
+    border-radius: 5px;
+    border: none;
+    background: white;
+    filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.5))
+}
+.login-container input[type = button]{
+    background: #3d45ee;
+    color: white;
+    filter: none;
+    
+}
+
+
+
 .menu{
     background-image: url("../assets/background.png"), linear-gradient(90deg, rgba(194,73,47,1) 0%, rgba(53,64,101,1) 100%);;
     display: grid;
@@ -128,8 +177,7 @@ body {
 
 .game{
     background-image: url("../assets/background.png");
-    background-repeat: ;
-    background-color: #c2492F;
+    background-color: var(--redLight);
     display: grid;
     width: 100vw;
     height: 100vh;
@@ -142,20 +190,39 @@ body {
 }
 
 .red-team{
-    background-color: #D95734;
+    background-color: var(--redDark);
     margin: 25px;
     border-radius: 15px;
     padding: 25px;
+    box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
 }
 
 .game-settings{
-    background-color: white;
+    background-color: #f7f6f7;
     margin: 25px;
     border-radius: 15px;
     padding: 25px;
+    display: flex;
+    flex-direction: column;
 }
+
+.game-settings input{
+    padding: 5px;
+    margin: 5px auto;
+    border-radius: 5px;
+    border: none;
+    background: white;
+    filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.5))
+}
+.game-settings input[type = button]{
+    background: #3d45ee;
+    color: white;
+    filter: none;
+}
+
 .operatives{
     margin: 5px auto;
+    color: white;
 }
 .team-top-container{
     display: flex;
@@ -171,6 +238,7 @@ body {
 .team-score{
     width: 50%;
     font-size: 36px;
+    color: white;
 }
 
 .game-container{
@@ -188,7 +256,7 @@ body {
 
 .game-tile{
     background-color: #FBE0B4;
-    border-radius: 2px;
+    border-radius: 5px;
     border: 2px solid black;
     aspect-ratio: 16/9;
     text-align: center;
@@ -196,13 +264,14 @@ body {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
 }
 .tile-blue{
-    background-color: #354065;
+    background-color: var(--blueDark);
     color: white;
 }
 .tile-red{
-    background-color: #c2492F;
+    background-color: var(--redDark);
 }
 .tile-black{
     background-color: black;
@@ -257,14 +326,41 @@ body {
     /* background-color: 354065; */
 }
 .blue-team{
-    background-color: #465484;
+    background-color: var(--blueDark);
     margin: 25px;
     border-radius: 15px;
     padding: 25px;
+    box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
 }
 .game-log{
     background-color: rgba(255, 255, 255, 0.7);;
     margin: 25px;
     border-radius: 15px;
-    padding: 25px;
+    padding-bottom: 20px;
+}
+.game-log-message{
+    padding: 2px 5px;
+    border: 1px solid black;
+}
+.game-log-message-red{
+    background: var(--redExtraLight);
+}
+.game-log-message-blue{
+    background: var(--blueExtraLight);
+}
+
+
+.game-over{
+    background: white;
+    border-radius: 25px;
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 150px;
+    justify-content: center;
+    align-items: center;
+    display: none;
 }

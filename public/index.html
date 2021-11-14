@@ -2,11 +2,23 @@
     <script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   </head>
   <body>
     <!-- Main menu -->
-    <section>
-      <div id = "menu-screen" class = "menu">
+    <section id = "login-screen">
+        <div id = "login-container" class = "login-container">
+            <img class = "logo-image" src="assets/neonbrand-jxmVsYjglnQ-unsplash.jpg">
+            <input type="text" id="username" name="user" placeholder="USERNAME">
+            <input type="text" id="room" name="room" placeholder="ROOM NAME">
+            <input type="Button" id="submit-info" value="Submit Info">
+        </div>
+    </section>
+    <!-- Main menu -->
+    <section id = "menu-screen" style = "display: none">
+      <div class = "menu">
         <div id = "join-red-team-container" class = "join-team-container">
           <div class = "red-team">
             <div class = "team-top-container">
@@ -14,12 +26,12 @@
               <p class = "team-score">-</p>
             </div>
             <div class = "operative-container">
-              <p class = "operatives">Operative(s)</p>
+              <p class = "operatives" style = "color: #b50a0a">Operative(s)</p>
               <p id = "red-operative-menu" class = "operatives"></p>
               <div id = "join-red-operative" class = "button">Join as Operative</div>
             </div>
             <div class = "operative-container">
-              <p class = "operatives">Spymaster(s)</p>
+              <p class = "operatives" style = "color: #b50a0a">Spymaster(s)</p>
               <p id = "red-spymaster-menu" class = "operatives"></p>
               <div id = "join-red-spymaster" class = "button">Join as Spymaster</div>
             </div>
@@ -27,10 +39,8 @@
         </div>
         <div id = "game-settings-container" class = "game-settings-container">
           <div class = "game-settings">
-            <input type="text" id="username" name="user" placeholder="USERNAME">
-            <input type="text" id="room" name="room" placeholder="ROOM NAME">
-            <input type="Button" id="submit-info" value="Submit Info">
-            <div id = "start-game-button" style = "display: none;">Start game</div>
+            <div id = "member-message">Host is selecting game settings</div>
+            <div id = "start-game-button" style = "display: none">Start game</div>
           </div>
         </div>
         <div id = "join-blue-team-container" class = "join-team-container">
@@ -40,12 +50,12 @@
               <p class = "team-score">-</p>
             </div>
             <div class = "operative-container">
-              <p class = "operatives">Operative(s)</p>
+              <p class = "operatives" style = "color: #72c2e1">Operative(s)</p>
               <p id = "blue-operative-menu" class = "operatives"></p>
               <div id = "join-blue-operative" class = "button">Join as Operative</div>
             </div>
             <div class = "operative-container">
-              <p class = "operatives">Spymaster(s)</p>
+              <p class = "operatives" style = "color: #72c2e1">Spymaster(s)</p>
               <p id = "blue-spymaster-menu" class = "operatives"></p>
               <div id = "join-blue-spymaster" class = "button">Join as Spymaster</div>
             </div>
@@ -63,18 +73,18 @@
               <p id = "red-team-score" class = "team-score">-</p>
             </div>
             <div class = "operative-container">
-              <p class = "operatives">Operative(s)</p>
+              <p class = "operatives" style = "color: #b50a0a">Operative(s)</p>
               <p id = "red-operative" class = "operatives"></p>
             </div>
             <div class = "operative-container">
-              <p class = "operatives">Spymaster(s)</p>
+              <p class = "operatives" style = "color: #b50a0a">Spymaster(s)</p>
               <p id = "red-spymaster" class = "operatives"></p>
             </div>
           </div>
         </div>
         <div class = "game-container">
           <div class = "game-status">
-            <p>The spymaster is giving a clue...</p>
+            <p id = "game-status-message">The spymaster is giving a clue...</p>
           </div>
           <div id = "game-board" class = "game-board">
           </div>
@@ -98,18 +108,21 @@
               <p id = "blue-team-score" class = "team-score">-</p>
             </div>
             <div class = "operative-container">
-              <p class = "operatives">Operative(s)</p>
+              <p class = "operatives" style = "color: #72c2e1">Operative(s)</p>
               <p id = "blue-operative" class = "operatives"></p>
             </div>
             <div class = "operative-container">
-              <p class = "operatives">Spymaster(s)</p>
+              <p class = "operatives" style = "color: #72c2e1">Spymaster(s)</p>
               <p id = "blue-spymaster" class = "operatives"></p>
             </div>
           </div>
           <div id = "game-log" class = "game-log">
-            GAME LOG
+            <p style = "padding: 5px; text-align: center;">Game Log</p>
           </div>
         </div>
+      </div>
+      <div id = "game-over" class = "game-over">
+        
       </div>
     </section>
 
