@@ -52,8 +52,6 @@ Each team has 2 roles (Spymaster, Operative).
 - [ ] Add in replay after game ends
 - [ ] Add functionality for user to join in after game has started and a turn has passed
 - [ ] Make responsive to mobile/tablet
-- [ ] Update header information with game info and title
-- [ ] Fix bug where room doesn't get deleted when all users leave the room
 
 ## Built With
 
