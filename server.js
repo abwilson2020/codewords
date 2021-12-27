@@ -33,6 +33,7 @@ function newConnection(socket){
     socket.on('role-changed', roleChange);
     socket.on('push-game-state', updateGameState);
     socket.on('new-clue', newClue);
+    socket.on('end-guessing', endGuessing);
 
     function roleChange(data){
         console.log("ROLE CHANGE: ", data);
@@ -79,5 +80,9 @@ function newConnection(socket){
     function newClue(data){
         console.log("new clue: ", data);
         socket.to(socket.room).emit("new-clue", data);
+    }
+    function endGuessing(data){
+        console.log("end-guessing", data);
+        socket.to(socket.room).emit("end-guessing", data);
     }
 }

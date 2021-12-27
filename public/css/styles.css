@@ -135,11 +135,53 @@ body {
     border-radius: 25px;
     box-shadow: 0 7px 30px -10px rgba(150,170,180,0.8);
 }
-.logo-image{
-    object-fit: contain;
+.logo-container{
+    width: 100%;
+    position: relative;
+    text-align: center;
     margin-bottom: 15px;
-    border-radius: 25px;
 }
+.logo-image{
+    object-fit: cover;
+    border-radius: 25px;
+    max-height: 250px;
+    filter: grayscale(100%);
+    width: 100%;
+    opacity: 50%;
+}
+
+.animated {
+    animation: rainbow 8s linear infinite;
+}
+
+@keyframes rainbow{
+    0%{color: var(--redLight);}	
+    50%{color: var(--blueDark);}
+	100%{color: var(--redLight);}
+}
+
+
+.logo-word{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    text-shadow: 0 1px 0 #ccc,
+               0 2px 0 #c9c9c9,
+               0 3px 0 #bbb,
+               0 4px 0 #b9b9b9,
+               0 5px 0 #aaa,
+               0 6px 1px rgba(0,0,0,.1),
+               0 0 5px rgba(0,0,0,.1),
+               0 1px 3px rgba(0,0,0,.3),
+               0 3px 5px rgba(0,0,0,.2),
+               0 5px 10px rgba(0,0,0,.25),
+               0 10px 10px rgba(0,0,0,.2),
+               0 20px 20px rgba(0,0,0,.15);
+    font-family: 'Roboto', sans-serif;
+}
+
 .login-container input{
     padding: 5px;
     margin: 5px auto;
@@ -195,6 +237,7 @@ body {
     border-radius: 15px;
     padding: 25px;
     box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
+    max-height: 40%;
 }
 
 .game-settings{
@@ -232,8 +275,9 @@ body {
 }
 .team-image{
     width: 50%;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 15px;
+    height: 100px;
 }
 .team-score{
     width: 50%;
@@ -266,12 +310,32 @@ body {
     cursor: pointer;
     box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
 }
+.tile-blue-spy{
+    background-color: var(--blueLight);
+    color: white;
+}
+.tile-red-spy{
+    background-color: var(--redLight);
+}
+.tile-black-spy{
+    background-color: rgb(77, 77, 77);
+    color: white;
+}
+.tile-none-spy{
+    background-color: #f1cab0;
+}
 .tile-blue{
     background-color: var(--blueDark);
     color: white;
+    background-image: url(/assets/blueTeam.jpg);
+    background-size: cover;
+    background-blend-mode: multiply;
 }
 .tile-red{
     background-color: var(--redDark);
+    background-image: url(/assets/redTeam.jpg);
+    background-size: cover;
+    background-blend-mode: multiply;
 }
 .tile-black{
     background-color: black;
@@ -280,12 +344,13 @@ body {
 .tile-none{
     background-color: #F2AF81;
 }
+
 .game-status{
     background-color: white;
     padding: 15px;
     border-radius: 5px;
     margin: auto;
-    margin-bottom: 100px
+    /* margin-bottom: 100px */
 }
 .clue{
     /* background-color: cadetblue; */
@@ -294,7 +359,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 100px auto auto;
+    margin: auto;
 }
 #clue-word{
     background-color: white;
@@ -324,6 +389,8 @@ body {
 
 #right-container{
     /* background-color: 354065; */
+    height: 100vh;
+    overflow: hidden;
 }
 .blue-team{
     background-color: var(--blueDark);
@@ -331,16 +398,37 @@ body {
     border-radius: 15px;
     padding: 25px;
     box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
+    max-height: 40%;
 }
 .game-log{
     background-color: rgba(255, 255, 255, 0.7);;
     margin: 25px;
     border-radius: 15px;
     padding-bottom: 20px;
+    overflow: scroll;
+    height: 40%;
+    overflow-x: hidden;
 }
 .game-log-message{
-    padding: 2px 5px;
+    padding: 6px 5px;
     border: 1px solid black;
+}
+.game-log-message span{
+    background: white;
+    padding: 3px 5px;
+    border-radius: 5px;
+}
+.game-log-guess-red{
+    color: var(--redDark);
+}
+.game-log-guess-blue{
+    color: var(--blueDark);
+}
+.game-log-guess-black{
+    color: black;
+}
+.game-log-guess-none{
+    color: #FBE0B4;
 }
 .game-log-message-red{
     background: var(--redExtraLight);

@@ -27,10 +27,10 @@ const gameMessage = document.getElementById('game-status-message');
 
 document.getElementById('submit-info').addEventListener('click', submitInfo);
 
-
-
 document.getElementById('start-game-button').addEventListener('click', startGame);
+
 document.getElementById('submit-clue').addEventListener('click', submitClue);
+document.getElementById('end-guessing').addEventListener('click', endGuessing);
 document.getElementById('join-red-operative').addEventListener('click', setRole);
 document.getElementById('join-blue-operative').addEventListener('click', setRole);
 document.getElementById('join-red-spymaster').addEventListener('click', setRole);
@@ -58,6 +58,7 @@ function setupConnections() {
   socket.on('make-host', makeHost);
   socket.on('update-game-state', updateGameState);
   socket.on('new-clue', newClue);
+  socket.on('end-guessing', handleEndGuessing);
   setNickname();
   setRoom();
 }
@@ -173,16 +174,23 @@ function updateRoles(data){
 */
 function startGame(){
   console.log("start-game");
-  cards = getCards();
 
-  var data = {
-    cards: cards
+  if(redOperatives.length == 0 || blueOperatives.length == 0 || redSpymaster.length == 0 || blueSpymaster.length == 0){
+    alert("Both teams need at least 1 spymaster and 1 operative to play");
+  } else if(role == "none"){
+    alert("You haven't picked a role yet");
+  } else {
+    cards = getCards();
+
+    var data = {
+      cards: cards
+    }
+
+    socket.emit('game-start', data); //We have to emit the cards so everyone gets the same randomized list
+    
+    gameSetup(cards);
+    gameStarted = true;
   }
-
-  socket.emit('game-start', data); //We have to emit the cards so everyone gets the same randomized list
-  
-  gameSetup(cards);
-  gameStarted = true;
 }
 
 function setRole(e){
@@ -235,9 +243,12 @@ async function gameSetup(data) {
   gameMessage.innerHTML = "The Red Spymaster is giving a clue...";
 
   if (role == "operative"){
-    document.getElementById('clue').style.display = "none";
-    document.getElementById('number').style.display = "none";
-    document.getElementById('submit-clue').style.display = "none";
+    document.getElementById('clue-submit-container').style.display = "none";
+    if (team == "blue"){
+      document.getElementById('end-guessing-container').style.visibility = "hidden";
+    }
+  } else {
+    document.getElementById('end-guessing-container').style.display = "none";
   }
   
   cards = data; //setup the list of cards for each team
@@ -261,14 +272,14 @@ async function gameSetup(data) {
       } else if (role == "spymaster"){ //Setup spymaster view of board
         console.log(cards.indexOf(i.toString()), i);
         if(cards.indexOf(i.toString()) == -1){
-          gameTile.classList.add("tile-none");
+          gameTile.classList.add("tile-none-spy");
         } else if(cards.indexOf(i.toString()) < ((cards.length -1) / 2)){
           console.log("tile-red", i);
-          gameTile.classList.add("tile-red");
+          gameTile.classList.add("tile-red-spy");
         } else if (cards.indexOf(i.toString()) == (cards.length -1)){
-          gameTile.classList.add("tile-black")
+          gameTile.classList.add("tile-black-spy")
         } else {
-          gameTile.classList.add("tile-blue");
+          gameTile.classList.add("tile-blue-spy");
         }
       }
 
@@ -304,6 +315,7 @@ function tileClicked(e){
 */
 var tile;
 var tileId;
+var tileColor;
 function handleTileClicked(data){
   // console.log("TILE:", data.tile);
   tile = document.getElementById(data.tile);
@@ -313,17 +325,13 @@ function handleTileClicked(data){
   console.log("tileID: ", tileId);
   console.log("CARDS: ", cards);
 
-  logMessage = document.createElement('p');
-  logMessage.classList.add('game-log-message');
-  logMessage.classList.add('game-log-message-' + data.team);
-  logMessage.innerHTML = data.user + " guesses " + tile.innerHTML;
-  gameLog.append(logMessage);
 
   if (cards.indexOf(tileId[2]) != -1){
     console.log("CARD IN LIST: ", tileId[2]); //
     console.log(cards.indexOf(tileId[2]));
     if(cards.indexOf(tileId[2]) < ((cards.length -1) / 2)){
       console.log("Card is RED");
+      tileColor = "red";
       tile.classList.add("tile-red");
       redCardsRemaining--;
       console.log("RED CARDS REMAINING: ", redCardsRemaining);
@@ -335,9 +343,15 @@ function handleTileClicked(data){
         turn = "red";
         background.style.backgroundColor = "#C2492F";
         gameMessage.innerHTML = "The Red Spymaster is giving a clue...";
+        if (team == "blue"){
+          document.getElementById('end-guessing-container').style.visibility = "hidden";
+        } else {
+          document.getElementById('end-guessing-container').style.visibility = "visible";
+        }
       }
     } else if (cards.indexOf(tileId[2]) == (cards.length -1)){
       console.log("Card was BLACK");//Game ends
+      tileColor = "black";
       tile.classList.add("tile-black");
       if (turn == "red"){
         gameOver("blue");
@@ -346,6 +360,7 @@ function handleTileClicked(data){
       }
     } else {
       console.log("Card is BLUE");
+      tileColor = "blue";
       tile.classList.add("tile-blue");
       blueCardsRemaining--;
       console.log("BLUE CARDS REMAINING: ", blueCardsRemaining);
@@ -357,23 +372,44 @@ function handleTileClicked(data){
         turn = "blue";
         background.style.backgroundColor = "#354065"
         gameMessage.innerHTML = "The Blue Spymaster is giving a clue...";
+        if (team == "red"){
+          document.getElementById('end-guessing-container').style.visibility = "hidden";
+        } else {
+          document.getElementById('end-guessing-container').style.visibility = "visible";
+        }
       }
     }
   } else {
     console.log("CARD NOT IN LIST: ", tileId[2]);
     tile.classList.add("tile-none");
+    tileColor = "none";
     //Change turns
     if(turn == "red"){
       turn = "blue";
       background.style.backgroundColor = "#354065"
       gameMessage.innerHTML = "The Blue Spymaster is giving a clue...";
+      if (team == "red"){
+        document.getElementById('end-guessing-container').style.visibility = "hidden";
+      } else {
+        document.getElementById('end-guessing-container').style.visibility = "visible";
+      }
     } else {
       turn = "red";
       background.style.backgroundColor = "#C2492F"
       gameMessage.innerHTML = "The Red Spymaster is giving a clue...";
+      if (team == "blue"){
+        document.getElementById('end-guessing-container').style.visibility = "hidden";
+      } else {
+        document.getElementById('end-guessing-container').style.visibility = "visible";
+      }
     }
   }
-
+  logMessage = document.createElement('p');
+  logMessage.classList.add('game-log-message');
+  logMessage.classList.add('game-log-message-' + data.team);
+  logMessage.innerHTML = data.user + " guesses <span class = \"game-log-guess-" + tileColor  + "\">"+ tile.innerHTML + "</span>";
+  gameLog.append(logMessage);
+  tile.innerHTML = "";
 }
 
 function updateCardsRemaining(){
@@ -403,12 +439,53 @@ function submitClue(){
       number: document.getElementById('number').value
     }
     socket.emit('new-clue', lastClue);
+    newClue(lastClue);
   }
   // console.log("SUBMIT CLUE: ", document.getElementById('number').value, document.getElementById('clue').value);
-  newClue(lastClue);
 }
-
-
+function endGuessing (){
+  if (team != turn){
+    alert("it is not your teams turn");
+  } else if (lastClue.team != team){
+    alert("Wait for your spymaster to send a clue");
+  } else {
+    var data = {
+      user: username,
+      team: team
+    }
+    socket.emit('end-guessing', data);
+    console.log("TURN ENDED: ", turn);
+    handleEndGuessing(data);
+  }
+}
+function handleEndGuessing(data){
+  console.log("HANDLE END GUESSING: ", data.team);
+  logMessage = document.createElement('p');
+  logMessage.classList.add('game-log-message');
+  logMessage.classList.add('game-log-message-' + data.team);
+  logMessage.innerHTML = data.user + " ended guessing";
+  gameLog.append(logMessage);
+  if(turn == "red"){
+    turn = "blue";
+    background.style.backgroundColor = "#354065"
+    gameMessage.innerHTML = "The Blue Spymaster is giving a clue...";
+    if (team == "red"){
+      document.getElementById('end-guessing-container').style.visibility = "hidden";
+    } else {
+      document.getElementById('end-guessing-container').style.visibility = "visible";
+    }
+  } else {
+    turn = "red";
+    background.style.backgroundColor = "#C2492F"
+    gameMessage.innerHTML = "The Red Spymaster is giving a clue...";
+    if (team == "blue"){
+      document.getElementById('end-guessing-container').style.visibility = "hidden";
+    } else {
+      document.getElementById('end-guessing-container').style.visibility = "visible";
+    }
+  }
+  
+}
 function newClue(data){
   console.log("CLUE RECEIVED: ", data);
   lastClue = data;
