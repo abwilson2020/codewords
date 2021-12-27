@@ -12,15 +12,10 @@ var io = socket(server);
 
 io.sockets.on('connection', newConnection);
 
-var connections = 0;
 var rooms = [];
 
 function newConnection(socket){
-    connections++;
-    socket.broadcast.emit('new-connection', connections)
-    // console.log("NEW CONNECTION: ", socket.id, socket.nickname);
-    // console.log("CONNECTIONS: ", connections);
-
+    console.log("NEW CONNECTION: ", socket.id, socket.nickname);
     socket.on('set-nickname', setNickName);
     socket.on('join-room', joinRoom);
     socket.on('disconnect', disconnect);
@@ -52,10 +47,14 @@ function newConnection(socket){
     }
 
     function disconnect(){
-        connections--;
-        // console.log("DISCONNECT ", socket.id);
-        // console.log("CONNECTIONS: ", connections);
-        // socket.to(socket.room).emit('disconnect', connections);
+        if(socket.room !== undefined){
+            let roomIndex = rooms.findIndex(roomID => roomID.roomID == socket.room);
+            if(rooms[roomIndex].occupants == 1){
+                rooms.splice(roomIndex, 1);
+            } else {
+                rooms[roomIndex].occupants -= 1;
+            }
+        }
     }
 
     function setNickName(data){
@@ -67,13 +66,17 @@ function newConnection(socket){
         socket.join(room);
         socket.room = room;
         socket.to(room).emit("new-room-connection", room);
-
         //If the room does not exist, create it and make the user that joined it the host of that room
-        if(rooms.indexOf(room) == -1){
-            console.log("creating new room");
-            rooms.push(room);
-            console.log(rooms);
+        if(!rooms.find(roomID => roomID.roomID == room)){
+            let roomData = {
+                "roomID" : room,
+                "occupants" : 1
+            }
+            rooms.push(roomData);
             io.to(room).emit("make-host");
+        } else {
+            let roomIndex = rooms.findIndex(roomID => roomID.roomID == room);
+            rooms[roomIndex].occupants += 1;
         }
     }
 
