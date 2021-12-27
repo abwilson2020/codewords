@@ -6,7 +6,7 @@ var server = app.listen(port);
 
 app.use(express.static('public'));
 
-console.log("My socket server is running");
+// console.log("My socket server is running");
 
 var socket = require('socket.io');
 
@@ -20,8 +20,8 @@ var rooms = [];
 function newConnection(socket){
     connections++;
     socket.broadcast.emit('new-connection', connections)
-    console.log("NEW CONNECTION: ", socket.id, socket.nickname);
-    console.log("CONNECTIONS: ", connections);
+    // console.log("NEW CONNECTION: ", socket.id, socket.nickname);
+    // console.log("CONNECTIONS: ", connections);
 
     socket.on('set-nickname', setNickName);
     socket.on('join-room', joinRoom);
@@ -36,38 +36,38 @@ function newConnection(socket){
     socket.on('end-guessing', endGuessing);
 
     function roleChange(data){
-        console.log("ROLE CHANGE: ", data);
+        // console.log("ROLE CHANGE: ", data);
         io.to(socket.room).emit('role-changed', data);
     }
     function updateGameState(data){
-        console.log("Game state: ", data);
+        // console.log("Game state: ", data);
         socket.to(socket.room).emit('update-game-state', data);
     }
     function startGame(data){
-        console.log("DATA: ", data.cards);
+        // console.log("DATA: ", data.cards);
         socket.to(socket.room).emit('game-start', data.cards);
     }
 
     function tileClicked(data){
-        console.log("Tile Clicked: ", data);
+        // console.log("Tile Clicked: ", data);
         socket.to(socket.room).emit('tile-clicked', data);
     }
 
     function disconnect(){
         connections--;
-        console.log("DISCONNECT ", socket.id);
-        console.log("CONNECTIONS: ", connections);
+        // console.log("DISCONNECT ", socket.id);
+        // console.log("CONNECTIONS: ", connections);
         // socket.to(socket.room).emit('disconnect', connections);
     }
     function setNickName(data){
         socket.nickname = data
-        console.log("NICKNAME SET: ",socket.nickname);
+        // console.log("NICKNAME SET: ",socket.nickname);
     }
 
     function joinRoom(room){
         socket.join(room);
         socket.room = room;
-        console.log("socket.room", socket.room);
+        // console.log("socket.room", socket.room);
         socket.to(room).emit("new-room-connection", room);
         if(rooms.indexOf(room) == -1){
             console.log("creating new room");
@@ -78,11 +78,11 @@ function newConnection(socket){
     }
 
     function newClue(data){
-        console.log("new clue: ", data);
+        // console.log("new clue: ", data);
         socket.to(socket.room).emit("new-clue", data);
     }
     function endGuessing(data){
-        console.log("end-guessing", data);
+        // console.log("end-guessing", data);
         socket.to(socket.room).emit("end-guessing", data);
     }
 }

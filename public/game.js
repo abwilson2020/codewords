@@ -42,7 +42,7 @@ var room = 'room-' + makeId(5).toLowerCase();
 
 
 function submitInfo(){
-  console.log("submit info");
+  // console.log("submit info");
   document.getElementById('login-screen').style.display = "none";
   document.getElementById('menu-screen').style.display = "block";
   setupConnections();
@@ -63,19 +63,19 @@ function setupConnections() {
   setRoom();
 }
 function makeHost(){
-  console.log("make host");
+  // console.log("make host");
   host = true;
   document.getElementById('start-game-button').style.display = "block";
   document.getElementById('member-message').style.display = "none";
 }
 function updateConnection(data){
-  console.log("NEW CONNECTION TO ROOM: ", data);
+  // console.log("NEW CONNECTION TO ROOM: ", data);
   if(host){
     pushGameState();
   }
 }
 function pushGameState(){
-  console.log(redOperatives.length);
+  // console.log(redOperatives.length);
   var gameState = {
     redOps: redOperatives,
     blueOps: blueOperatives,
@@ -89,7 +89,7 @@ function pushGameState(){
   socket.emit('push-game-state', gameState);
 }
 function updateGameState(data){
-  console.log("data", data);
+  // console.log("data", data);
   document.getElementById('red-operative-menu').innerHTML = data.redOps.join('&nbsp');
   document.getElementById('red-operative').innerHTML = data.redOps.join('&nbsp');
   document.getElementById('blue-operative-menu').innerHTML = data.blueOps.join('&nbsp');
@@ -105,9 +105,9 @@ function updateGameState(data){
   if (data.blueSpy.length > 0){
     document.getElementById("join-blue-spymaster").style.display = "none";
   }
-  console.log("ROLE: ", role);
-  console.log("gameStarted: ", gameStarted);
-  console.log("data.gameStarted: ", data.gameStarted);
+  // console.log("ROLE: ", role);
+  // console.log("gameStarted: ", gameStarted);
+  // console.log("data.gameStarted: ", data.gameStarted);
   if (!gameStarted && data.gameStarted && role != "none"){
     turn = data.turn;
     lastClue = lastClue;
@@ -126,7 +126,7 @@ function makeId(length) {
 
 function setNickname(){
   username = document.getElementById('username').value;
-  console.log("USERNAME", username);
+  // console.log("USERNAME", username);
   if (!username){
     username = "test";
   }
@@ -135,7 +135,7 @@ function setNickname(){
 
 function setRoom(){
   room = document.getElementById('room').value;
-  console.log("ROOM", room);
+  // console.log("ROOM", room);
   if (!room){
     room = "test";
   }
@@ -143,7 +143,7 @@ function setRoom(){
 }
 
 function updateRoles(data){
-  console.log("Role data: ", data);
+  // console.log("Role data: ", data);
   if(host){
     if(data.role == "operative"){
       if (data.team == "red"){
@@ -173,7 +173,7 @@ function updateRoles(data){
 * Start the game
 */
 function startGame(){
-  console.log("start-game");
+  // console.log("start-game");
 
   if(redOperatives.length == 0 || blueOperatives.length == 0 || redSpymaster.length == 0 || blueSpymaster.length == 0){
     alert("Both teams need at least 1 spymaster and 1 operative to play");
@@ -194,20 +194,20 @@ function startGame(){
 }
 
 function setRole(e){
-  console.log("E: ", e.target.id);
+  // console.log("E: ", e.target.id);
   if (e.target.id.search("blue") != -1){
-    console.log("successfully joined the blue team");
+    // console.log("successfully joined the blue team");
     team = "blue";
   } else {
-    console.log("successfully joined the red team");
+    // console.log("successfully joined the red team");
     team = "red";
   }
 
   if (e.target.id.search("operative") != -1){
-    console.log("successfully joined as an operative");
+    // console.log("successfully joined as an operative");
     role = "operative";
   } else {
-    console.log("successfully joined as a spymaster");
+    // console.log("successfully joined as a spymaster");
     role = "spymaster";
   }
   document.querySelectorAll(".button").forEach(button => button.style.display = "none");
@@ -228,7 +228,7 @@ function getCards(){
       var r = Math.floor(Math.random() * 25).toString();
       if(arr.indexOf(r) === -1) arr.push(r);
   }
-  console.log("ARR ", arr)
+  // console.log("ARR ", arr)
   return arr;
 }
 
@@ -270,11 +270,11 @@ async function gameSetup(data) {
       if(role == "operative"){
         gameTile.addEventListener('click', tileClicked);
       } else if (role == "spymaster"){ //Setup spymaster view of board
-        console.log(cards.indexOf(i.toString()), i);
+        // console.log(cards.indexOf(i.toString()), i);
         if(cards.indexOf(i.toString()) == -1){
           gameTile.classList.add("tile-none-spy");
         } else if(cards.indexOf(i.toString()) < ((cards.length -1) / 2)){
-          console.log("tile-red", i);
+          // console.log("tile-red", i);
           gameTile.classList.add("tile-red-spy");
         } else if (cards.indexOf(i.toString()) == (cards.length -1)){
           gameTile.classList.add("tile-black-spy")
@@ -294,7 +294,7 @@ async function gameSetup(data) {
 * Handle the click on a tile when current player is the one that clicked the tile
 */
 function tileClicked(e){
-  console.log("E:", e.target.id);
+  // console.log("E:", e.target.id);
   if (team != turn){
     alert("it is not your teams turn");
   } else if (lastClue.team != team){
@@ -320,21 +320,21 @@ function handleTileClicked(data){
   // console.log("TILE:", data.tile);
   tile = document.getElementById(data.tile);
   tile.removeEventListener('click', tileClicked, false);
-  console.log("tile:", tile);
+  // console.log("tile:", tile);
   tileId = data.tile.split('-')
-  console.log("tileID: ", tileId);
-  console.log("CARDS: ", cards);
+  // console.log("tileID: ", tileId);
+  // console.log("CARDS: ", cards);
 
 
   if (cards.indexOf(tileId[2]) != -1){
-    console.log("CARD IN LIST: ", tileId[2]); //
-    console.log(cards.indexOf(tileId[2]));
+    // console.log("CARD IN LIST: ", tileId[2]); //
+    // console.log(cards.indexOf(tileId[2]));
     if(cards.indexOf(tileId[2]) < ((cards.length -1) / 2)){
-      console.log("Card is RED");
+      // console.log("Card is RED");
       tileColor = "red";
       tile.classList.add("tile-red");
       redCardsRemaining--;
-      console.log("RED CARDS REMAINING: ", redCardsRemaining);
+      // console.log("RED CARDS REMAINING: ", redCardsRemaining);
       updateCardsRemaining();
       if(redCardsRemaining <= 0){
         gameOver("red");
@@ -350,7 +350,7 @@ function handleTileClicked(data){
         }
       }
     } else if (cards.indexOf(tileId[2]) == (cards.length -1)){
-      console.log("Card was BLACK");//Game ends
+      // console.log("Card was BLACK");//Game ends
       tileColor = "black";
       tile.classList.add("tile-black");
       if (turn == "red"){
@@ -359,11 +359,11 @@ function handleTileClicked(data){
         gameOver("red");
       }
     } else {
-      console.log("Card is BLUE");
+      // console.log("Card is BLUE");
       tileColor = "blue";
       tile.classList.add("tile-blue");
       blueCardsRemaining--;
-      console.log("BLUE CARDS REMAINING: ", blueCardsRemaining);
+      // console.log("BLUE CARDS REMAINING: ", blueCardsRemaining);
       updateCardsRemaining();
       if(blueCardsRemaining <= 0){
         gameOver("blue");
@@ -380,7 +380,7 @@ function handleTileClicked(data){
       }
     }
   } else {
-    console.log("CARD NOT IN LIST: ", tileId[2]);
+    // console.log("CARD NOT IN LIST: ", tileId[2]);
     tile.classList.add("tile-none");
     tileColor = "none";
     //Change turns
@@ -413,12 +413,12 @@ function handleTileClicked(data){
 }
 
 function updateCardsRemaining(){
-  console.log("updateCardsRemaining()", redCardsRemaining, blueCardsRemaining);
+  // console.log("updateCardsRemaining()", redCardsRemaining, blueCardsRemaining);
   redCards.innerHTML = redCardsRemaining;
   blueCards.innerHTML = blueCardsRemaining;
 }
 function gameOver(winner){
-  console.log("TEAM " + winner + " WINS");
+  // console.log("TEAM " + winner + " WINS");
   // alert(winner + " team wins");
   document.getElementById('game-over').innerHTML = winner + " team wins!";
   document.getElementById('game-over').style.display = "flex";
@@ -454,12 +454,12 @@ function endGuessing (){
       team: team
     }
     socket.emit('end-guessing', data);
-    console.log("TURN ENDED: ", turn);
+    // console.log("TURN ENDED: ", turn);
     handleEndGuessing(data);
   }
 }
 function handleEndGuessing(data){
-  console.log("HANDLE END GUESSING: ", data.team);
+  // console.log("HANDLE END GUESSING: ", data.team);
   logMessage = document.createElement('p');
   logMessage.classList.add('game-log-message');
   logMessage.classList.add('game-log-message-' + data.team);
@@ -487,7 +487,7 @@ function handleEndGuessing(data){
   
 }
 function newClue(data){
-  console.log("CLUE RECEIVED: ", data);
+  // console.log("CLUE RECEIVED: ", data);
   lastClue = data;
   document.getElementById('clue-word').innerHTML = data.clue;
   document.getElementById('clue-number').innerHTML = data.number;
