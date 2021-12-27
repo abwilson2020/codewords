@@ -6,8 +6,6 @@ var server = app.listen(port);
 
 app.use(express.static('public'));
 
-// console.log("My socket server is running");
-
 var socket = require('socket.io');
 
 var io = socket(server);
@@ -25,8 +23,6 @@ function newConnection(socket){
 
     socket.on('set-nickname', setNickName);
     socket.on('join-room', joinRoom);
-
-
     socket.on('disconnect', disconnect);
     socket.on('game-start', startGame);
     socket.on('tile-clicked', tileClicked);
@@ -39,10 +35,12 @@ function newConnection(socket){
         // console.log("ROLE CHANGE: ", data);
         io.to(socket.room).emit('role-changed', data);
     }
+
     function updateGameState(data){
         // console.log("Game state: ", data);
         socket.to(socket.room).emit('update-game-state', data);
     }
+
     function startGame(data){
         // console.log("DATA: ", data.cards);
         socket.to(socket.room).emit('game-start', data.cards);
@@ -59,6 +57,7 @@ function newConnection(socket){
         // console.log("CONNECTIONS: ", connections);
         // socket.to(socket.room).emit('disconnect', connections);
     }
+
     function setNickName(data){
         socket.nickname = data
         // console.log("NICKNAME SET: ",socket.nickname);
@@ -67,8 +66,9 @@ function newConnection(socket){
     function joinRoom(room){
         socket.join(room);
         socket.room = room;
-        // console.log("socket.room", socket.room);
         socket.to(room).emit("new-room-connection", room);
+
+        //If the room does not exist, create it and make the user that joined it the host of that room
         if(rooms.indexOf(room) == -1){
             console.log("creating new room");
             rooms.push(room);
