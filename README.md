@@ -46,12 +46,14 @@ Each team has 2 roles (Spymaster, Operative).
 - [X] Add functionality to allow operatives to end guessing without getting a card wrong
 - [X] Add game log
 - [X] Add game status message
+- [X] Fix bug where lobby will continue to say waiting for host after all users have left the lobby
 - [ ] Add Audio
 - [ ] Add Extra word lists and a way to select them
 - [ ] Create timed version of game
 - [ ] Add in replay after game ends
 - [ ] Add functionality for user to join in after game has started and a turn has passed
 - [ ] Make responsive to mobile/tablet
+- [ ] Add passwords to rooms
 
 ## Built With
 
